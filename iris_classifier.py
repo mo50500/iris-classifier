@@ -43,7 +43,7 @@ def train_model(X_train, y_train):
     """
     Создание и обучение модели логистической регрессии
     """
-    model = LogisticRegression(max_iter=200)
+    model = LogisticRegression(max_iter=200, class_weight='balanced', random_state=42)
     model.fit(X_train, y_train)
     return model
 
@@ -52,6 +52,8 @@ def train_model(X_train, y_train):
 def evaluate_model(model, X_test, y_test):
     # Предсказания
     y_pred = model.predict(X_test)
+    print("Предсказания:", y_pred)
+    print("Реальные зна:", y_test.values)
 
     # Расчет точности
     accuracy = accuracy_score(y_test, y_pred)
@@ -88,6 +90,7 @@ if __name__ == "__main__":
     # Оценка модели
     print("\nОценка производительности модели:")
     evaluate_model(model, X_test, y_test)
+
 
     # Сохранение модели
     joblib.dump(model, 'iris_classifier.joblib')
